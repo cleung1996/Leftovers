@@ -53,7 +53,6 @@ const Tabs = () => {
           ...styles.shadow
         }
       }} >
-
       <Tab.Screen
         name="Recipes"
         component={RecipeScreen}
@@ -89,7 +88,7 @@ const Tabs = () => {
             </View>
           )
         }} />
-      <Tab.Screen name="Home" component={HomeScreen}
+      <Tab.Screen name="HomeScreen" component={HomeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon

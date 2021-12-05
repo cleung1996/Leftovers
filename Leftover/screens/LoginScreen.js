@@ -1,15 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import Tabs from './navigation/tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Animated, StyleSheet, Button, TextInput, SafeAreaView, CroppingView, View, Text, TouchableOpacity, Image } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-const Home = () => {
-  return (
-    <Tabs />
-  )
-};
 
 const FadeInLogin = (props) => {
   const fadeAnim = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
@@ -111,7 +104,7 @@ const FadeInView = (props) => {
   );
 }
 
-const Main = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const [username, onChangeUser] = React.useState(null)
   const [password, onChangePassword] = React.useState(null)
 
@@ -132,7 +125,7 @@ const Main = ({ navigation }) => {
       </View>
       <FadeInImgView>
         <Image
-          source={require('./images/output-onlinegiftools.gif')}
+          source={require('../images/output-onlinegiftools.gif')}
 
           resizeMode='contain'
           style={{
@@ -150,28 +143,10 @@ const Main = ({ navigation }) => {
       </FadeInLogin>
       <FadeInLogin>
         <View style={styles.button}>
-          <Button color='navy' title="Submit" onPress={() => navigation.navigate('Home', {screen: 'HomeScreen'})} />
+          <Button color='navy' title="Submit" onPress={() => navigation.navigate('Home')} />
         </View>
       </FadeInLogin>
     </SafeAreaView>
-  )
-};
-
-
-const Stack = createNativeStackNavigator();
-
-const App = () => {
-  return(
-    <NavigationContainer >
-      <Stack.Navigator
-      screenOptions={{
-        headerShown: false
-        }}
-      >
-        <Stack.Screen component={Main} name="Main" />
-        <Stack.Screen component={Home} name="Home" />
-      </ Stack.Navigator>
-    </NavigationContainer>
   )
 };
 
@@ -198,4 +173,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+export default LoginScreen;
