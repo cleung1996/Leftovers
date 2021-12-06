@@ -4,12 +4,23 @@ import Tabs from './navigation/tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Animated, StyleSheet, Button, TextInput, SafeAreaView, CroppingView, View, Text, TouchableOpacity, Image } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import users from './data/data.js';
 
-const Home = () => {
+const Home = ( {navigation} ) => {
+
   return (
     <Tabs />
   )
 };
+
+const userChecker = (userObj) => {
+  console.log(userObj);
+  console.log(users);
+
+  let results = users.filter(aUser => (aUser.email === userObj.userName && aUser.password && userObj.password));
+
+  return results;
+}
 
 const FadeInLogin = (props) => {
   const fadeAnim = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
@@ -112,8 +123,8 @@ const FadeInView = (props) => {
 }
 
 const Main = ({ navigation }) => {
-  const [username, onChangeUser] = React.useState(null)
-  const [password, onChangePassword] = React.useState(null)
+  const [username, setUser] = React.useState('')
+  const [password, onChangePassword] = React.useState('')
 
   return (
     <SafeAreaView style={{
@@ -144,13 +155,16 @@ const Main = ({ navigation }) => {
       <FadeInLogin style={{ width: 300, height: 50 }}>
         <Text style={{ fontSize: 28, fontWeight: 'bold', margin: 10, position: 'absolute', top: -300}}>Login</Text>
         <Text style={{ fontSize: 15, margin: 10, position: 'absolute', top: -250}}>Email Address</Text>
-        <TextInput style={styles.input1} onChangeUser={onChangeUser} value={username} placeholder="JohnDoe123" />
+        <TextInput style={styles.input1} onChangeText={setUser} value={username} placeholder="JohnDoe123" />
         <Text style={{ fontSize: 15, margin: 10, position: 'absolute', top: -170}}>Password</Text>
-        <TextInput style={styles.input2} onChangePassword={onChangePassword} value={password} placeholder="Password" />
+        <TextInput style={styles.input2} onChangeText={onChangePassword} value={password} placeholder="Password" />
       </FadeInLogin>
       <FadeInLogin>
         <View style={styles.button}>
-          <Button color='navy' title="Submit" onPress={() => navigation.navigate('Home', {screen: 'HomeScreen'})} />
+          <Button color='navy' title="Submit" onPress={() => {
+            let data = userChecker({'userName': username, 'password': password})
+            return !!data.length ? navigation.navigate('Home', {screen: 'HomeScreen', params: {data}}) : alert('Invalid email and/or password')}
+            } />
         </View>
       </FadeInLogin>
     </SafeAreaView>
