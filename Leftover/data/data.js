@@ -39,8 +39,9 @@ var users = [
     'id': 5,
     'Name': 'Abc',
     'email': 'Abc',
-    'points': 2810,
-    'currentData': [],
+    'points': 3950,
+    'currentData': [{'Item': 'Spinach', 'Qty': 200, 'Completed': 100}, {'Item': 'Tomatos', 'Qty': 200, 'Completed': 200}],
+    'status': 'Gold',
     'password': 'Abc',
     'friends': [1,2]
   }

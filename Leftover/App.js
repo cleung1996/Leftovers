@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import Tabs from './navigation/tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -6,10 +6,9 @@ import { Animated, StyleSheet, Button, TextInput, SafeAreaView, CroppingView, Vi
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import users from './data/data.js';
 
-const Home = ( {navigation} ) => {
-
+const Home = ( {navigation, route} ) => {
   return (
-    <Tabs />
+    <Tabs data={route.params.params.data}/>
   )
 };
 
@@ -125,6 +124,26 @@ const FadeInView = (props) => {
 const Main = ({ navigation }) => {
   const [username, setUser] = React.useState('')
   const [password, onChangePassword] = React.useState('')
+  const [sample, onSample] = React.useState('sample');
+
+  // const [name, setName] = useState(data.Name);
+  // const [email, setEmail] = useState(data.email);
+  // const [friends, setFriends] = useState(data.friends);
+  // const [currentData, setCurrentData] = useState(data.currentData);
+  // const [points, setPoints] = useState(data.points);
+  // const [currentStatus, setStatus] = useState(data.status);
+  // const [value, setValue] = useState(aFunction());
+  // const [nextLevel, setNextLevel] = useState('something');
+
+  //   let status = [
+  //   { 'status': 'Bronze', 'points': 1000 },
+  //   { 'status': 'Silver', 'points': 2000 },
+  //   { 'status': 'Gold', 'points': 3000 },
+  //   { 'status': 'Platinum', 'points': 4000 },
+  //   { 'status': 'Diamond', 'points': 5000 },
+  // ]
+
+
 
   return (
     <SafeAreaView style={{
@@ -170,7 +189,7 @@ const Main = ({ navigation }) => {
     </SafeAreaView>
   )
 };
-
+// navigation.navigate('Home', {screen: 'HomeScreen', params: {data}})
 
 const Stack = createNativeStackNavigator();
 

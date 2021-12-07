@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-const RecipeScreen = ({navigation}) => {
+const RecipeScreen = (props) => {
+  console.log('recipe', props.aData[0].currentData[0]);
+  props.aData[0].currentData[0].Completed = 200;
   return(
     <View style={styles.container}>
       <Text>Recipe</Text>
-      <Button title="Click Here" onPress={() => alert('Button Clicked!')} />
+      <Button title="Click Here" onPress={() => props['0'].navigation.navigate('HomeScreen', {screen: 'HomeScreen', data: props.aData})} />
     </View>
   );
 };
