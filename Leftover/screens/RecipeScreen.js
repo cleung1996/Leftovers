@@ -10,24 +10,11 @@ import RecipeContainer from './components/recipeContainer.js';
 
 const RecipeScreen = (props) => {
   console.log('recipe', props.aData[0].currentData[0]);
-  props.aData[0].currentData[0].Completed = 200;
+  props.aData[0].currentData[0].Completed = 17;
   const [recipeQuery, setRecipe] = useState('');
   const [receipeResults, setRecipeList] = useState([]);
 
   const searchRecipe = (item) => {
-
-    //   axios.get('https://api.edamam.com/search', {
-    //     "q": item,
-    //     "app_id": {app_id},
-    //     "app_key": {app_key},
-    //     "from": 0,
-    //     "to": 5,
-    //   })
-    //     .then((response) => {
-    //       console.log('worked', response);
-    //     })
-    //     .catch((err) => console.log(err));
-    // }
 
     axios.get(`https://api.edamam.com/search?q=${item}&app_id=${app_id}&app_key=${app_key}&to=30`)
       .then((response) => {

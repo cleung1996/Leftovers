@@ -15,26 +15,26 @@ const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({ children, onPress }) => {
   return (
-  <TouchableOpacity
-    style={{
-      top: -30,
-      justifyContent: 'center',
-      alignItems: 'center',
-      ...styles.shadow
-    }}
-    onPress={onPress}
-  >
-    <View style={{
-      width: 70,
-      height: 70,
-      borderRadius: 35,
-      backgroundColor: '#e32f45'
-    }}>
-      {children}
-    </View>
-  </TouchableOpacity>
-);
-  };
+    <TouchableOpacity
+      style={{
+        top: -30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        ...styles.shadow
+      }}
+      onPress={onPress}
+    >
+      <View style={{
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        backgroundColor: '#e32f45'
+      }}>
+        {children}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const Tabs = ({ data }) => {
   console.log('tabs', data);
@@ -67,7 +67,7 @@ const Tabs = ({ data }) => {
                 style={{
                   color: focused ? '#e32f45' : '#748c94'
                 }} />
-              <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> RECIPES </Text>
+              <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> Recipes </Text>
             </View>
           )
         }}
@@ -79,7 +79,6 @@ const Tabs = ({ data }) => {
 
       <Tab.Screen
         name="Schedule"
-        component={ScheduleScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center', top: 10 }}>
@@ -90,10 +89,15 @@ const Tabs = ({ data }) => {
                 style={{
                   color: focused ? '#e32f45' : '#748c94'
                 }} />
-              <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> SCHEDULE </Text>
+              <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> Schedule </Text>
             </View>
           )
-        }} />
+        }}
+        children={(...props) => <ScheduleScreen
+          {...props}
+          bData={data}
+        />}
+      />
       <Tab.Screen name="HomeScreen" component={HomeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -123,7 +127,7 @@ const Tabs = ({ data }) => {
                 style={{
                   color: focused ? '#e32f45' : '#748c94'
                 }} />
-              <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> MARKET </Text>
+              <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> Market </Text>
             </View>
           )
         }} />
@@ -140,7 +144,7 @@ const Tabs = ({ data }) => {
                 style={{
                   color: focused ? '#e32f45' : '#748c94'
                 }} />
-              <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> FRIENDS </Text>
+              <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> Friends </Text>
             </View>
           )
         }} />

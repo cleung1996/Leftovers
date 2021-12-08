@@ -44,34 +44,6 @@ const HomeScreen = ({ navigation, route }) => {
   const [nextLevel, setNextLevel] = useState('something');
   const [valueOld, setValueOld] = useState(0);
 
-  // useEffect(() => {
-  //   console.log("calledd");
-
-  //   // Call only when screen open or when back on screen
-  //   if (isFocused) {
-  //     getInitialData();
-  //   }
-  // }, [points, value, nextLevel, currentStatus]);
-
-  // const getInitialData = async () => {
-  //   let results = status.filter((aStatusLevel) => aStatusLevel.status === currentStatus);
-  //   let index = status.findIndex((aStatusLevel) => aStatusLevel.status === currentStatus);
-  //   const completedTotal = (previousValue, currentValue) => previousValue + currentValue.Completed;
-  //   const trueTotal = (previousValue, currentValue) => previousValue + currentValue.Qty;
-
-  //   const accomplished = currentData.reduce(completedTotal, 0);
-  //   const total = currentData.reduce(trueTotal, 0);
-  //   setValue(Math.floor(accomplished / total * 100));
-  //   console.log(value);
-  //   setStatus(results[0].status);
-
-
-  //   if (nextLevel !== 'something' && status[index + 1].status !== nextLevel) {
-  //     alert('Woah! New level achieved! Congrats');
-  //   }
-  //   setNextLevel(status[index + 1].status);
-  // }
-
   useFocusEffect(
     React.useCallback(() => {
       let results = status.filter((aStatusLevel) => aStatusLevel.status === currentStatus);
@@ -83,8 +55,8 @@ const HomeScreen = ({ navigation, route }) => {
       const total = currentData.reduce(trueTotal, 0);
       const newValue = Math.floor(accomplished / total * 100);
       const newStatus = results[0].status;
-      setStatus(newStatus);
       setValue(newValue);
+      setStatus(newStatus);
       if (nextLevel !== 'something' && status[index + 1].status !== nextLevel) {
         alert('Woah! New level achieved! Congrats');
       }

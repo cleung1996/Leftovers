@@ -5,7 +5,7 @@ var users = [
     'email': 'SampleEmail@hotmail.com',
     'points': 3420,
     'status': 'Gold',
-    'currentData': [{'Item': 'Spinach', 'Qty': 200, 'Completed': 50}, {'Item': 'Tomatos', 'Qty': 200, 'Completed': 200}],
+    'currentData': [{'Item': 'Spinach', 'Qty': 200, 'Expiry Date': '2021/12/20', 'Completed': 50}, {'Item': 'Tomatos', 'Qty': 200, 'Expiry Date': '2021/12/20', 'Completed': 200}],
     'password': 'Password',
     'friends': [2,3,4]
   },
@@ -41,7 +41,7 @@ var users = [
     'Name': 'Abc',
     'email': 'Abc',
     'points': 3950,
-    'currentData': [{'Item': 'Spinach', 'Qty': 200, 'Completed': 100}, {'Item': 'Tomatos', 'Qty': 200, 'Completed': 200}],
+    'currentData': [{'Item': 'Spinach', 'Qty': 20, 'Expiry Date': '2021/12/20', 'Completed': 13, 'isDonating': false}, {'Item': 'Tomatos', 'Qty': 10, 'Expiry Date': '2021/12/20', 'Completed': 2, 'isDonating': false}, {'Item': 'Beef', 'Qty': 10, 'Expiry Date': '2021/12/20', 'Completed': 6, 'isDonating': false}],
     'status': 'Gold',
     'password': 'Abc',
     'friends': [1,2]

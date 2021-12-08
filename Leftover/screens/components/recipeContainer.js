@@ -61,7 +61,7 @@ const RecipeContainer = ({ data }) => {
                   borderWidth: 2,
                   fontSize: 14,
                 }}>
-                  <Text style={{ textAlign: 'center'}}>Like what you see? Add to your favorites now!</Text>
+                  <Text style={{ textAlign: 'center'}} >Like what you see? Add to your favorites now!</Text>
                   <Button color="darkgreen" title="Add to Favorites" onPress={() => alert(`${data.title} was added to your favorites`)}/>
                 </View>
               </View>
