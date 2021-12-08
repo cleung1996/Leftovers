@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -13,7 +13,8 @@ import ScheduleScreen from '../screens/ScheduleScreen';
 
 const Tab = createBottomTabNavigator();
 
-const CustomTabBarButton = ({ children, onPress }) => (
+const CustomTabBarButton = ({ children, onPress }) => {
+  return (
   <TouchableOpacity
     style={{
       top: -30,
@@ -33,92 +34,10 @@ const CustomTabBarButton = ({ children, onPress }) => (
     </View>
   </TouchableOpacity>
 );
+  };
 
-const Tabs = ({data}) => {
+const Tabs = ({ data }) => {
   console.log('tabs', data);
-
-  // let status = [
-  //   { 'status': 'Bronze', 'points': 1000 },
-  //   { 'status': 'Silver', 'points': 2000 },
-  //   { 'status': 'Gold', 'points': 3000 },
-  //   { 'status': 'Platinum', 'points': 4000 },
-  //   { 'status': 'Diamond', 'points': 5000 },
-  // ]
-
-  // const [name, setName] = useState(data.Name);
-  // const [email, setEmail] = useState(data.email);
-  // const [friends, setFriends] = useState(data.friends);
-  // const [currentData, setCurrentData] = useState(data.currentData);
-  // const [points, setPoints] = useState(data.points);
-  // const [currentStatus, setStatus] = useState(data.status);
-  // const [value, setValue] = useState(aFunction());
-  // const [nextLevel, setNextLevel] = useState('something');
-
-  // const aFunction = () => {
-  //   let results = status.filter((aStatusLevel) => aStatusLevel.status === currentStatus);
-  //   let index = status.findIndex((aStatusLevel) => aStatusLevel.status === currentStatus);
-  //   const completedTotal = (previousValue, currentValue) => previousValue + currentValue.Completed;
-  //   const trueTotal = (previousValue, currentValue) => previousValue + currentValue.Qty;
-
-  //   const accomplished = currentData.reduce(completedTotal, 0);
-  //   const total = currentData.reduce(trueTotal, 0);
-  //   return Math.floor(accomplished/total * 100);
-  // }
-
-
-
-  // // useEffect(() => {
-  // //   console.log("calledd");
-
-  // //   // Call only when screen open or when back on screen
-  // //   if (isFocused) {
-  // //     getInitialData();
-  // //   }
-  // // }, [points, value, nextLevel, currentStatus]);
-
-  // // const getInitialData = async () => {
-  // //   let results = status.filter((aStatusLevel) => aStatusLevel.status === currentStatus);
-  // //   let index = status.findIndex((aStatusLevel) => aStatusLevel.status === currentStatus);
-  // //   const completedTotal = (previousValue, currentValue) => previousValue + currentValue.Completed;
-  // //   const trueTotal = (previousValue, currentValue) => previousValue + currentValue.Qty;
-
-  // //   const accomplished = currentData.reduce(completedTotal, 0);
-  // //   const total = currentData.reduce(trueTotal, 0);
-  // //   setValue(Math.floor(accomplished / total * 100));
-  // //   console.log(value);
-  // //   setStatus(results[0].status);
-
-
-  // //   if (nextLevel !== 'something' && status[index + 1].status !== nextLevel) {
-  // //     alert('Woah! New level achieved! Congrats');
-  // //   }
-  // //   setNextLevel(status[index + 1].status);
-  // // }
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     let results = status.filter((aStatusLevel) => aStatusLevel.status === currentStatus);
-  //     let index = status.findIndex((aStatusLevel) => aStatusLevel.status === currentStatus);
-  //     const completedTotal = (previousValue, currentValue) => previousValue + currentValue.Completed;
-  //     const trueTotal = (previousValue, currentValue) => previousValue + currentValue.Qty;
-
-  //     const accomplished = currentData.reduce(completedTotal, 0);
-  //     const total = currentData.reduce(trueTotal, 0);
-  //     const newValue = Math.floor(accomplished/total * 100);
-  //     const newStatus = results[0].status;
-  //     setValue(newValue);
-
-
-  //     if (nextLevel !== 'something' && status[index + 1].status !== nextLevel){
-  //       alert('Woah! New level achieved! Congrats');
-  //     }
-  //     const newNextLevel = status[index + 1].status;
-  //     return () => {
-  //       // Do something when the screen is unfocused
-  //       // Useful for cleanup functions
-  //     };
-  //   }, [value])
-  // );
   return (
     <Tab.Navigator
       screenOptions={{
@@ -153,10 +72,10 @@ const Tabs = ({data}) => {
           )
         }}
         children={(...props) => <RecipeScreen
-        {...props}
-        aData={data}
+          {...props}
+          aData={data}
         />}
-        />
+      />
 
       <Tab.Screen
         name="Schedule"

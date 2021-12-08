@@ -123,27 +123,7 @@ const FadeInView = (props) => {
 
 const Main = ({ navigation }) => {
   const [username, setUser] = React.useState('')
-  const [password, onChangePassword] = React.useState('')
-  const [sample, onSample] = React.useState('sample');
-
-  // const [name, setName] = useState(data.Name);
-  // const [email, setEmail] = useState(data.email);
-  // const [friends, setFriends] = useState(data.friends);
-  // const [currentData, setCurrentData] = useState(data.currentData);
-  // const [points, setPoints] = useState(data.points);
-  // const [currentStatus, setStatus] = useState(data.status);
-  // const [value, setValue] = useState(aFunction());
-  // const [nextLevel, setNextLevel] = useState('something');
-
-  //   let status = [
-  //   { 'status': 'Bronze', 'points': 1000 },
-  //   { 'status': 'Silver', 'points': 2000 },
-  //   { 'status': 'Gold', 'points': 3000 },
-  //   { 'status': 'Platinum', 'points': 4000 },
-  //   { 'status': 'Diamond', 'points': 5000 },
-  // ]
-
-
+  const [password, onChangePassword] = React.useState('');
 
   return (
     <SafeAreaView style={{

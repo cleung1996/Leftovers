@@ -19,6 +19,8 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "animated-number-react": "^0.1.2",
+    "axios": "^0.24.0",
+    "jquery": "^3.6.0",
     "navigation": "^5.5.0",
     "react": "17.0.2",
     "react-native": "0.66.3",

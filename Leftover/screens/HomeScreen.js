@@ -112,7 +112,7 @@ const HomeScreen = ({ navigation, route }) => {
     React.useEffect(() => {
       let delayTime = 2250;
       let animationTime = 1000;
-      if (value === valueOld){
+      if (value === valueOld) {
         delayTime = 0;
         animationTime = 0;
       }
@@ -147,7 +147,7 @@ const HomeScreen = ({ navigation, route }) => {
       return (
         <>
           <Image
-            source={require('../images/carrotEating.gif')}
+            source={require('../images/carrotStrong.gif')}
 
             resizeMode='contain'
             style={{
@@ -157,26 +157,30 @@ const HomeScreen = ({ navigation, route }) => {
             }}
           />
           <View style={{
-            borderRadius: 20,
-            width: 200,
-            padding: 10,
-            borderWidth: 2,
-            fontSize: 14,
-            flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            <Text>You're almost there, </Text>
-            <Text style={{ fontWeight: 'bold' }}>{name}!</Text>
+            <Text style={{
+              borderRadius: 10,
+              textAlign: 'center',
+              padding: 10,
+              width: 200,
+              borderWidth: 2,
+              fontSize: 14,
+            }}>
+              <Text>You're almost there, </Text>
+              <Text style={{ fontWeight: 'bold' }}>{name}</Text>
+              <Text>!</Text>
+            </Text>
           </View>
         </>
       );
-    } else if (value >= 30 && value < 70) {
+    } else if (value >= 40 && value < 70) {
       return (
         <>
           <Image
-            source={require('../images/carrotEating.gif')}
+            source={require('../images/carrotStrong.gif')}
             resizeMode='contain'
             style={{
               width: 125,
@@ -185,27 +189,31 @@ const HomeScreen = ({ navigation, route }) => {
             }}
           />
           <View style={{
-            borderRadius: 10,
-            width: 200,
-            padding: 10,
-            borderWidth: 2,
-            fontSize: 14,
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            <Text>Keep going, </Text>
-            <Text style={{ fontWeight: 'bold' }}>{name}</Text>
-            <Text>, I know you can do it!</Text>
+            <Text style={{
+              borderRadius: 10,
+              textAlign: 'center',
+              padding: 10,
+              width: 200,
+              borderWidth: 2,
+              fontSize: 14,
+            }}>
+              <Text>Keep going </Text>
+              <Text style={{ fontWeight: 'bold' }}>{name}</Text>
+              <Text>, I know you can do it!</Text>
+            </Text>
           </View>
         </>
       );
-    } else if (value < 30) {
+    } else if (value < 40) {
       return (
         <>
           <Image
-            source={require('../images/carrotEating.gif')}
+            source={require('../images/carrotSick.gif')}
             resizeMode='contain'
             style={{
               width: 125,
@@ -213,19 +221,24 @@ const HomeScreen = ({ navigation, route }) => {
               zIndex: 100,
             }}
           />
+
           <View style={{
-            borderRadius: 10,
-            padding: 10,
-            borderWidth: 2,
-            width: 200,
-            fontSize: 14,
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            <Text style={{ fontWeight: 'bold' }}>{name}</Text>
-            <Text>, don't let me down</Text>
+            <Text style={{
+              borderRadius: 10,
+              width: 200,
+              textAlign: 'center',
+              padding: 10,
+              borderWidth: 2,
+              fontSize: 14,
+            }}>
+              <Text style={{ fontWeight: 'bold' }}>{name}</Text>
+              <Text>, don't let me down!</Text>
+            </Text>
           </View>
         </>
       );
@@ -233,7 +246,7 @@ const HomeScreen = ({ navigation, route }) => {
       return (
         <>
           <Image
-            source={require('../images/carrotEating.gif')}
+            source={require('../images/carrotHappy.gif')}
             resizeMode='contain'
             style={{
               width: 125,
@@ -242,19 +255,23 @@ const HomeScreen = ({ navigation, route }) => {
             }}
           />
           <View style={{
-            borderRadius: 10,
-            padding: 10,
-            borderWidth: 2,
-            width: 200,
-            fontSize: 14,
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            <Text>You did it, </Text>
-            <Text style={{ fontWeight: 'bold' }}>{name}</Text>
-            <Text>!</Text>
+            <Text style={{
+              borderRadius: 10,
+              textAlign: 'center',
+              width: 200,
+              padding: 10,
+              borderWidth: 2,
+              fontSize: 14,
+            }}>
+              <Text>You did it, </Text>
+              <Text style={{ fontWeight: 'bold' }}>{name}</Text>
+              <Text>!</Text>
+            </Text>
           </View>
         </>
       )
@@ -463,9 +480,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: StatusBar.currentHeight,
     backgroundColor: '#fff',
-  },
-  fontAwesomeText: {
-
   },
   scrollView: {
     backgroundColor: '#fff',

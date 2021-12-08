@@ -2,10 +2,11 @@ var users = [
   {
     'id': 1,
     'Name': 'Charles',
-    'email': 'sampleEmail@hotmail.com',
-    'points': 2810,
-    'currentData': [],
-    'password': 'password',
+    'email': 'SampleEmail@hotmail.com',
+    'points': 3420,
+    'status': 'Gold',
+    'currentData': [{'Item': 'Spinach', 'Qty': 200, 'Completed': 50}, {'Item': 'Tomatos', 'Qty': 200, 'Completed': 200}],
+    'password': 'Password',
     'friends': [2,3,4]
   },
   {
