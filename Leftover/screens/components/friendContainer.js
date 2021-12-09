@@ -36,7 +36,7 @@ const FriendContainer = ({aFriend}) => {
     <View style={{paddingTop: 20, flexDirection: 'row'}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, borderRadius: 15, backgroundColor: aFriend.isUser ? '#F6FADE' : '#fff'}}>
         <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-          <Image source={{uri: imageReturner(aFriend.id, aFriend.isUser)}} style={styles.img} />
+          <Image source={require('../../images/Mii-boy.png')} style={styles.img} />
           <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold', paddingTop: 10 }}>{returnEmoji(aFriend.rank) + aFriend.name}</Text>
         </View>
         <View>
