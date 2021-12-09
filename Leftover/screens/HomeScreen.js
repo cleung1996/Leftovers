@@ -12,7 +12,6 @@ import TypeWriter from 'react-native-typewriter'
 
 
 const HomeScreen = ({ navigation, route }) => {
-  console.log(route);
   let status = [
     { 'status': 'Bronze', 'points': 1000 },
     { 'status': 'Silver', 'points': 2000 },
@@ -33,7 +32,6 @@ const HomeScreen = ({ navigation, route }) => {
 
   const isFocused = useIsFocused();
   let data = route.params.data[0];
-  const [something, setSomething] = useState(0);
   const [name, setName] = useState(data.Name);
   const [email, setEmail] = useState(data.email);
   const [friends, setFriends] = useState(data.friends);
@@ -43,6 +41,8 @@ const HomeScreen = ({ navigation, route }) => {
   const [value, setValue] = useState(0);
   const [nextLevel, setNextLevel] = useState('something');
   const [valueOld, setValueOld] = useState(0);
+  const [pointsOld, setPointsOld] = useState(0);
+  const [oldAccomplished, setOldAccomplished] = useState(0);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -50,11 +50,17 @@ const HomeScreen = ({ navigation, route }) => {
       let index = status.findIndex((aStatusLevel) => aStatusLevel.status === currentStatus);
       const completedTotal = (previousValue, currentValue) => previousValue + currentValue.Completed;
       const trueTotal = (previousValue, currentValue) => previousValue + currentValue.Qty;
-
       const accomplished = currentData.reduce(completedTotal, 0);
       const total = currentData.reduce(trueTotal, 0);
       const newValue = Math.floor(accomplished / total * 100);
       const newStatus = results[0].status;
+      const amountGained = accomplished - oldAccomplished;
+
+      if(amountGained > 0) {
+        setPointsOld(newValue);
+        setPoints(points + amountGained)
+        setOldAccomplished(accomplished);
+      }
       setValue(newValue);
       setStatus(newStatus);
       if (nextLevel !== 'something' && status[index + 1].status !== nextLevel) {

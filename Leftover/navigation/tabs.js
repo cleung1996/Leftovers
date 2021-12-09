@@ -133,7 +133,6 @@ const Tabs = ({ data }) => {
         }} />
       <Tab.Screen
         name="Friends"
-        component={FriendsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center', top: 10 }}>
@@ -147,7 +146,12 @@ const Tabs = ({ data }) => {
               <Text style={{ color: focused ? '#e32f45' : '#748c94', fontSize: 12, paddingTop: 5 }}> Friends </Text>
             </View>
           )
-        }} />
+        }}
+        children={(...props) => <FriendsScreen
+          {...props}
+          cData={data}
+        />}
+      />
     </Tab.Navigator>
   );
 

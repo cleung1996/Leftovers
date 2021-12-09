@@ -36,11 +36,11 @@ const ScheduleContainer = ({ leftover, index, length }) => {
     }, [percentageChange, counter]));
 
   return (
-    <View style={{ paddingTop: 20, zIndex: zIdx }}>
+    <View style={{ paddingTop: 15, zIndex: zIdx }}>
       <View style={{ width: '100%', height: 125, borderRadius: 10, borderWidth: 1, flexDirection: 'row', justifyContent: 'space-between', shadowColor: '#7F5DF0',  }}>
         <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', padding: 15 }}>
           <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-            {leftover.Item}
+            {leftover.Item} - {leftover.Qty} oz.
           </Text>
           <Text>Donation in progress: {leftover.isDonating ? 'Yes' : 'No'}</Text>
           {leftover.Qty === leftover.Completed
@@ -99,20 +99,11 @@ const ScheduleContainer = ({ leftover, index, length }) => {
             tintColor={percentageChange >= 50 ? "darkgreen" : "darkred"}
             backgroundColor={percentageChange >= 50 ? "#aece78" : "#ec884e"}>
           </AnimatedCircularProgress>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', position: 'absolute', left: 42 }} >
-            <CountUp isCounting end={counter} duration={2} /> oz.
-          </Text>
-          {/* <CircularProgress
-          value={(leftover.Completed)}
-          activeStrokeColor={'#ff9102'}
-          activeStrokeSecondaryColor={'#aece78'}
-          valueSuffix={'oz.'}
-          title={`Reduced`}
-          titleColor={'darkgreen'}
-          titleFontSize={14}
-          maxValue={leftover.Qty}
-          radius={60}
-        /> */}
+          <View style={{position: 'absolute', width: 70, alignItems: 'center', left: 31}}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }} >
+              <CountUp isCounting end={counter} duration={2} /> oz.
+            </Text>
+          </View>
         </View>
       </View>
     </View >

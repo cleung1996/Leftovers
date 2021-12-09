@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import ScheduleContainer from './components/scheduleContainer';
 
@@ -13,7 +12,19 @@ const ScheduleScreens = (props) => {
   const name = props.bData[0].Name;
   const [currentUserData, setUserData] = useState(props.bData[0].currentData);
   const [currentTime, setCurrentTime] = useState(moment().format('ddd. MMM. Do YYYY'));
-  console.log(currentTime);
+  const [getTotal, setTotal] = useState(0);
+
+  const getAvg = () => {
+    const completedTotal = (previousValue, currentValue) => previousValue + currentValue.Completed;
+    const accomplished = currentUserData.reduce(completedTotal, 0);
+    return accomplished;
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setTotal(getAvg());
+    }, [getTotal]));
+
 
   return (
     <SafeAreaView style={styles.container} >
@@ -60,6 +71,37 @@ const ScheduleScreens = (props) => {
         <View>
           {currentUserData.map((leftover, index) => <ScheduleContainer leftover={leftover} key={index} index={index} length={currentUserData.length}/>)}
         </View>
+        <View style={{paddingTop: 20, flexDirection: 'row', zIndex: -1}} >
+              <Image
+                source={require('../images/carrotForkRepeat.gif')}
+                resizeMode='contain'
+                style={{
+                  width: 130,
+                  height: 130,
+                  zIndex: 100,
+                }}
+              />
+
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <View style={{
+                  borderRadius: 10,
+                  width: 200,
+                  padding: 10,
+                  borderWidth: 2,
+                  fontSize: 14,
+                }}>
+                  <Text style={{textAlign: 'center'}}>
+                    <Text>You earned </Text>
+                    <Text style={{fontWeight: 'bold'}}>{getTotal} oz.</Text>
+                    <Text> this week towards your next status 🥳</Text>
+                  </Text>
+                </View>
+              </View>
+            </View>
       </ScrollView>
     </SafeAreaView >
   );
