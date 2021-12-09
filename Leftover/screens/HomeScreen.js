@@ -119,7 +119,7 @@ const HomeScreen = ({ navigation, route }) => {
       return (
         <>
           <Image
-            source={require('../images/carrotStrong.gif')}
+            source={require('../images/carrotForkRepeat.gif')}
 
             resizeMode='contain'
             style={{

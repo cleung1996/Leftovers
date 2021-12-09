@@ -10,7 +10,7 @@ import RecipeContainer from './components/recipeContainer.js';
 
 const RecipeScreen = (props) => {
   console.log('recipe', props.aData[0].currentData[0]);
-  props.aData[0].currentData[0].Completed = 17;
+  // props.aData[0].currentData[0].Completed = 17;
   const [recipeQuery, setRecipe] = useState('');
   const [receipeResults, setRecipeList] = useState([]);
 

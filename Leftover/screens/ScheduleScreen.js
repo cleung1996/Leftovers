@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import moment from 'moment';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import ScheduleContainer from './components/scheduleContainer';
 
@@ -57,7 +58,7 @@ const ScheduleScreens = (props) => {
           </Text>
         </View>
         <View>
-          {currentUserData.map((leftover) => <ScheduleContainer leftover={leftover}/>)}
+          {currentUserData.map((leftover, index) => <ScheduleContainer leftover={leftover} key={index} index={index} length={currentUserData.length}/>)}
         </View>
       </ScrollView>
     </SafeAreaView >

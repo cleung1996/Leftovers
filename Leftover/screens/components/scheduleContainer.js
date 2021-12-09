@@ -4,41 +4,91 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { useFocusEffect } from '@react-navigation/native';
 import { CountUp } from 'use-count-up';
+import DropDownPicker from 'react-native-dropdown-picker';
+import moment from 'moment';
 
-const ScheduleContainer = ({ leftover }) => {
+const ScheduleContainer = ({ leftover, index, length }) => {
   const [percentageChange, onChangePercentage] = useState((leftover.Completed) / leftover.Qty * 100);
   const [counter, onChangeCount] = useState(leftover.Completed);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(0);
+  const [items, setItems] = useState([...Array(leftover.Qty - leftover.Completed)].map((_, i) => ({ 'label': `${i + 1} oz.`, 'value': `${i + 1}`, })));
+  const [zIdx, setzIdx] = useState(Number(length - index));
+  const [expDate, setExpiryDate] = useState(0);
 
   const changeContribution = () => {
-    leftover.Completed = 20;
+    console.log(value);
+    console.log(leftover.Completed);
+    leftover.Completed = leftover.Completed + Number(value);
     onChangePercentage(leftover.Completed / leftover.Qty * 100);
     onChangeCount(leftover.Completed);
-
+    setItems([...Array(leftover.Qty - leftover.Completed)].map((_, i) => ({ 'label': `${i + 1} oz.`, 'value': `${i + 1}`, })));
   }
 
   useFocusEffect(
     React.useCallback(() => {
       onChangePercentage((leftover.Completed) / leftover.Qty * 100);
       onChangeCount(leftover.Completed);
+      let now = moment(new Date());
+      let end = moment(leftover['Expiry Date']);
+      let duration = moment.duration(now.diff(end));
+      setExpiryDate(Math.ceil( -1 * duration.asDays()));
     }, [percentageChange, counter]));
 
   return (
-    <View style={{ paddingTop: 20 }}>
-      <View style={{ width: '100%', height: 125, borderRadius: 10, borderWidth: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+    <View style={{ paddingTop: 20, zIndex: zIdx }}>
+      <View style={{ width: '100%', height: 125, borderRadius: 10, borderWidth: 1, flexDirection: 'row', justifyContent: 'space-between', shadowColor: '#7F5DF0',  }}>
         <View style={{ flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', padding: 15 }}>
           <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
             {leftover.Item}
           </Text>
           <Text>Donation in progress: {leftover.isDonating ? 'Yes' : 'No'}</Text>
-          <Text>
-            Expires: {' '}
-            {leftover['Expiry Date']}
-          </Text>
-          <TouchableOpacity onPress={() => changeContribution()}>
-            <View style={{ borderWidth: 1, borderRadius: 10, width: 100, flexDirection: 'row', justifyContent: 'center' }}>
-              <Text style={{ fontWeight: 'bold', fontSize: 14, color: 'darkgreen' }}>Contribute</Text>
+          {leftover.Qty === leftover.Completed
+          ? <Text style={{fontWeight: 'bold'}}>Task Complete 🎉</Text>
+          : <Text style={{fontWeight: expDate <= 3 ? 'bold' : 'normal', color: expDate <= 3 ? 'darkred' : 'black'}} >
+            Expires in{' '}
+            {expDate}
+            {' '}
+            days
+          </Text>}
+          {leftover.Qty !== leftover.Completed
+          ? (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'space-between' }}>
+              <DropDownPicker
+                open={open}
+                value={value}
+                items={items}
+                placeholder="Reduce:"
+                translation={{
+                  NOTHING_TO_SHOW: "Completed"
+                }}
+                listMode="SCROLLVIEW"
+                style={{width: 100, height: 23, paddingRight: 10 }}
+                zIndex={10000}
+                containerStyle={{width: 100}}
+                textStyle={{
+                  fontSize: 12,
+                  backgroundColor: 'white',
+                  zIndex: 5000
+                }}
+                labelStyle={{
+                  fontWeight: 'bold'
+                }}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+              />
+              <TouchableOpacity style={{...styles.shadow}} onPress={() => changeContribution()}>
+                <View style={{  borderWidth: 1, borderRadius: 10, width: 80, left: 5, padding: 3,  flexDirection: 'row', justifyContent: 'center'}}>
+                  <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'darkgreen' }}>Contribute</Text>
+                </View>
+              </TouchableOpacity>
+          </View>
+          )
+          :(
+            <View style={{ flexDirection: 'row', width: 180, justifyContent: 'space-between', alignItems: 'space-between' }}>
             </View>
-          </TouchableOpacity>
+          )}
         </View>
         <View style={{ flexDirection: 'column', justifyContent: 'center', padding: 15 }}>
           <AnimatedCircularProgress
@@ -46,8 +96,8 @@ const ScheduleContainer = ({ leftover }) => {
             width={15}
             duration={2000}
             fill={percentageChange}
-            tintColor={"darkgreen"}
-            backgroundColor="#aece78">
+            tintColor={percentageChange >= 50 ? "darkgreen" : "darkred"}
+            backgroundColor={percentageChange >= 50 ? "#aece78" : "#ec884e"}>
           </AnimatedCircularProgress>
           <Text style={{ fontSize: 18, fontWeight: 'bold', position: 'absolute', left: 42 }} >
             <CountUp isCounting end={counter} duration={2} /> oz.
@@ -71,3 +121,14 @@ const ScheduleContainer = ({ leftover }) => {
 }
 
 export default ScheduleContainer;
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#7F5DF0',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+  }
+});
