@@ -12,6 +12,8 @@ const returnEmoji = (rank) => {
     return '🥈';
   } else if (rank === 3) {
     return '🥉';
+  } else{
+    return '';
   }
 }
 
@@ -31,12 +33,13 @@ const imageReturner = (id, isUser) => {
 const FriendContainer = ({aFriend}) => {
   console.log('aFriend', aFriend);
   let random = 'https://randomuser.me/api/portraits/men/1.jpg';
+  let something = '../../images/Mii-boy.png'
 
   return (
     <View style={{paddingTop: 20, flexDirection: 'row'}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, borderRadius: 15, backgroundColor: aFriend.isUser ? '#F6FADE' : '#fff'}}>
         <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-          <Image source={require('../../images/Mii-boy.png')} style={styles.img} />
+          <Image source={require(something)} style={styles.img} />
           <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold', paddingTop: 10 }}>{returnEmoji(aFriend.rank) + aFriend.name}</Text>
         </View>
         <View>

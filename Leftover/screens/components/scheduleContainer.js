@@ -7,7 +7,7 @@ import { CountUp } from 'use-count-up';
 import DropDownPicker from 'react-native-dropdown-picker';
 import moment from 'moment';
 
-const ScheduleContainer = ({ leftover, index, length }) => {
+const ScheduleContainer = ({ leftover, index, length, total, setTotal }) => {
   const [percentageChange, onChangePercentage] = useState((leftover.Completed) / leftover.Qty * 100);
   const [counter, onChangeCount] = useState(leftover.Completed);
   const [open, setOpen] = useState(false);
@@ -23,6 +23,7 @@ const ScheduleContainer = ({ leftover, index, length }) => {
     onChangePercentage(leftover.Completed / leftover.Qty * 100);
     onChangeCount(leftover.Completed);
     setItems([...Array(leftover.Qty - leftover.Completed)].map((_, i) => ({ 'label': `${i + 1} oz.`, 'value': `${i + 1}`, })));
+    setTotal(total + Number(value));
   }
 
   useFocusEffect(

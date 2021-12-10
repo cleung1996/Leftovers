@@ -156,7 +156,7 @@ const Main = ({ navigation }) => {
         <Text style={{ fontSize: 15, margin: 10, position: 'absolute', top: -250}}>Email Address</Text>
         <TextInput style={styles.input1} onChangeText={setUser} value={username} placeholder="JohnDoe123" />
         <Text style={{ fontSize: 15, margin: 10, position: 'absolute', top: -170}}>Password</Text>
-        <TextInput style={styles.input2} onChangeText={onChangePassword} value={password} placeholder="Password" />
+        <TextInput style={styles.input2} onChangeText={onChangePassword} value={password} placeholder="Password" secureTextEntry={true} />
       </FadeInLogin>
       <FadeInLogin>
         <View style={styles.button}>

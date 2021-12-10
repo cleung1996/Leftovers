@@ -6,7 +6,7 @@ var users = [
     'points': 3420,
     'photo': '/Mii-boy.png',
     'status': 'Gold',
-    'currentData': [{'Item': 'Spinach', 'Qty': 20, 'Expiry Date': '2021-12-11', 'Completed': 13, 'isDonating': false}, {'Item': 'Tomatos', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 2, 'isDonating': false}, {'Item': 'Beef', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 6, 'isDonating': false}],
+    'currentData': [{'Item': 'Spinach', 'Qty': 20, 'Expiry Date': '2021-12-11', 'Completed': 11, 'isDonating': false}, {'Item': 'Tomatos', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 2, 'isDonating': false}, {'Item': 'Beef', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 6, 'isDonating': false}],
     'password': 'Password',
     'friends': [2,3,4]
   },
@@ -28,8 +28,7 @@ var users = [
     'points': 1029,
     'status': 'Bronze',
     'photo': '/Mii-man.png',
-    'currentData': [{'Item': 'Beets', 'Qty': 15, 'Expiry Date': '2021/12/20', 'Completed': 7, 'isDonating': false }, {'Item': 'Oranges', 'Qty': 5, 'Expiry Date': '2021/12/20', 'Completed': 2, 'isDonating': true}],
-    'currentData': [],
+    'currentData': [{'Item': 'Beets', 'Qty': 15, 'Expiry Date': '2021/12/20', 'Completed': 5, 'isDonating': false }, {'Item': 'Oranges', 'Qty': 5, 'Expiry Date': '2021/12/20', 'Completed': 0, 'isDonating': true}],
     'password': 'password',
     'friends': [1,4]
   },

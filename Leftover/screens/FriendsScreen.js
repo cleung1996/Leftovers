@@ -119,7 +119,7 @@ const FriendsScreen = (props) => {
         marginLeft: 30,
         fontWeight: 'bold'
       }}>
-        <Text>Weekly Competition</Text>
+        <Text>Battleground</Text>
       </Text>
       <View style={{
         flexDirection: 'row',
@@ -194,7 +194,7 @@ const FriendsScreen = (props) => {
         </View>
         <View style={{marginTop: 10}}>
           <View>
-            {rankFriendsList().map((aFriend) => <FriendContainer aFriend={aFriend} />)}
+            {rankFriendsList().map((aFriend) => <FriendContainer aFriend={aFriend} key={aFriend.id} />)}
           </View>
         </View>
       </ScrollView>
