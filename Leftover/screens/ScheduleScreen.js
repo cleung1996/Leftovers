@@ -22,12 +22,20 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
 
 import ScheduleContainer from './components/scheduleContainer';
+import NewTaskScheduleContainer from './components/newTaskScheduleContainer';
 
 const ScheduleScreens = props => {
   const getAvg = () => {
     const completedTotal = (previousValue, currentValue) =>
       previousValue + currentValue.Completed;
     const accomplished = currentUserData.reduce(completedTotal, 0);
+    return accomplished;
+  };
+
+  const getAvgNewTask = () => {
+    const completedTotal = (previousValue, currentValue) =>
+      previousValue + currentValue.Completed;
+    const accomplished = props.bData[0].tasksNextWeek.reduce(completedTotal, 0);
     return accomplished;
   };
   const name = props.bData[0].Name;
@@ -37,7 +45,7 @@ const ScheduleScreens = props => {
   );
   const [getTotal, setTotal] = useState(getAvg());
   const [newTaskName, setTask] = useState('');
-  const [modalDisplay, toggleModal] = useState([false, false]);
+  const [modalDisplay, toggleModal] = useState(false);
   const [number, onChangeNumber] = useState(null);
   const [address, onChangeAddress] = useState('');
   const [city, onChangeCity] = useState('');
@@ -47,6 +55,53 @@ const ScheduleScreens = props => {
   const [date, setDate] = useState(new Date());
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  const [tasksNextWeek, setNewTaskObj] = useState(props.bData[0].tasksNextWeek);
+  const [donationsInProgress, setDonationTask] = useState(props.bData[0].donationsOut);
+  const [newTaskTotal, setNewTaskTotal] = useState(getAvgNewTask());
+
+  const postNewObj = () => {
+    console.log('numberinOz', Number(number));
+    console.log('enteredCity', city);
+    console.log('state', state);
+    console.log('zip', zipCode);
+    console.log('isDonating', isEnabled);
+    console.log('expiryDate', date);
+    console.log('moment', moment(date));
+
+    const newTask = {
+      Item: newTaskName,
+      Qty: number,
+      'Expiry Date': date,
+      Completed: 0,
+      isDonating: isEnabled,
+    };
+
+    const newDonationItem = {
+      ...newTask,
+      Address: address,
+      City: city,
+      State: state,
+      ZipCode: zipCode,
+      maxRadius: radius,
+    };
+
+    // console.log('newDonationsItem', newDonationItem);
+    // console.log('donationsInProgress', donationsInProgress);
+
+    // let newDonations= newDonationItem + (donationsInProgress);
+    // console.log('donationsOut', newDonations);
+
+    props.bData[0].donationsOut = [...donationsInProgress, newDonationItem];
+    props.bData[0].tasksNextWeek = [ ...tasksNextWeek, newTask];
+    setDonationTask(props.bData[0].donationsOut);
+    setNewTaskObj(props.bData[0].tasksNextWeek);
+
+    console.log('donationsOut', props.bData[0].donationsOut);
+    console.log('tasksNextWeek', props.bData[0].tasksNextWeek);
+
+    toggleModal(false);
+  };
 
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -152,19 +207,38 @@ const ScheduleScreens = props => {
             style={{
               color: 'darkgreen',
               fontSize: 16,
-              paddingTop: 10
+              paddingTop: 10,
             }}>
             <Text>Tasks for next week: </Text>
           </Text>
           <Text style={{fontSize: 13, paddingTop: 5, color: 'darkgreen'}}>
-            <Text>You can start contributing now, but points will only be added and affect </Text>
+            <Text>
+              You can start contributing now, but points will only be added and
+              affect{' '}
+            </Text>
             <Text style={{fontWeight: 'bold'}}>next </Text>
             <Text>week's goal</Text>
           </Text>
         </View>
-        <View style={{height: 50}}/>
-    </ScrollView>
-      <Modal visible={modalDisplay[1]} animationType="slide">
+        <View>
+          {props.bData[0].tasksNextWeek.map((leftover, index) => {
+            console.log('length', props.bData[0].tasksNextWeek.length);
+            console.log('index', index);
+            return (
+              <NewTaskScheduleContainer
+                leftover={leftover}
+                key={index}
+                index={index}
+                length={props.bData[0].tasksNextWeek.length}
+                newTaskTotal={newTaskTotal}
+                setNewTaskTotal={setNewTaskTotal}
+              />
+            );
+          })}
+        </View>
+        <View style={{height: 50}} />
+      </ScrollView>
+      <Modal visible={modalDisplay} animationType="slide">
         <View
           style={{
             marginHorizontal: 50,
@@ -378,14 +452,8 @@ const ScheduleScreens = props => {
               flexDirection: 'row',
               justifyContent: 'space-around',
             }}>
-            <Button
-              title="Add Task"
-              onPress={() => toggleModal([true, false])}
-            />
-            <Button
-              title="Cancel"
-              onPress={() => toggleModal([false, false])}
-            />
+            <Button title="Add Task" onPress={() => postNewObj()} />
+            <Button title="Cancel" onPress={() => toggleModal(false)} />
           </View>
         </View>
       </Modal>

@@ -7,33 +7,44 @@ import { CountUp } from 'use-count-up';
 import DropDownPicker from 'react-native-dropdown-picker';
 import moment from 'moment';
 
-const ScheduleContainer = ({ leftover, index, length, total, setTotal }) => {
+const NewTaskScheduleContainer = ({ leftover, index, length, newTaskTotal, setNewTaskTotal }) => {
   const [percentageChange, onChangePercentage] = useState((leftover.Completed) / leftover.Qty * 100);
   const [counter, onChangeCount] = useState(leftover.Completed);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
   const [items, setItems] = useState([...Array(leftover.Qty - leftover.Completed)].map((_, i) => ({ 'label': `${i + 1} oz.`, 'value': `${i + 1}`, })));
-  const [zIdx, setzIdx] = useState(Number(length - index));
+  const [zIdx, setzIdx] = useState(Number(index - length));
   const [expDate, setExpiryDate] = useState(0);
+  const [leftoverItem, setleftoverItem] = useState(leftover);
 
   const changeContribution = () => {
     leftover.Completed = leftover.Completed + Number(value);
     onChangePercentage(leftover.Completed / leftover.Qty * 100);
     onChangeCount(leftover.Completed);
     setItems([...Array(leftover.Qty - leftover.Completed)].map((_, i) => ({ 'label': `${i + 1} oz.`, 'value': `${i + 1}`, })));
-    setTotal(total + Number(value));
+    setNewTaskTotal(newTaskTotal + Number(value));
   }
 
   useFocusEffect(
     React.useCallback(() => {
-      onChangePercentage((leftover.Completed) / leftover.Qty * 100);
-      onChangeCount(leftover.Completed);
+      onChangePercentage((leftoverItem.Completed) / leftoverItem.Qty * 100);
+      onChangeCount(leftoverItem.Completed);
       let now = moment(new Date());
       let end = moment(leftover['Expiry Date']);
+      console.log('enddate', end);
+      console.log('newTaskTotal', newTaskTotal);
+      console.log('percentageChange', percentageChange);
+      console.log('counter', counter);
+
+      console.log('leftOverQTY', leftover.Qty);
+      console.log('leftoverTotal', leftover.Completed);
+
       let duration = moment.duration(now.diff(end));
       setExpiryDate(Math.ceil( -1 * duration.asDays()));
     }, [percentageChange, counter]));
 
+    console.log('leftoverQty', leftover.Item, leftover.Qty);
+    console.log('leftoverCompleted', leftover.Item, leftover.Completed);
 
   return (
     <View style={{ paddingTop: 15, zIndex: zIdx }}>
@@ -43,7 +54,7 @@ const ScheduleContainer = ({ leftover, index, length, total, setTotal }) => {
             {leftover.Item} - {leftover.Qty} oz.
           </Text>
           <Text>Donation in progress: {leftover.isDonating ? 'Yes' : 'No'}</Text>
-          {leftover.Qty === leftover.Completed
+          {Number(leftover.Qty) === Number(leftover.Completed)
           ? <Text style={{fontWeight: 'bold'}}>Task Complete 🎉</Text>
           : <Text style={{fontWeight: expDate <= 3 ? 'bold' : 'normal', color: expDate <= 3 ? 'darkred' : 'black'}} >
             Expires in{' '}
@@ -96,8 +107,8 @@ const ScheduleContainer = ({ leftover, index, length, total, setTotal }) => {
             width={15}
             duration={2000}
             fill={percentageChange}
-            tintColor={percentageChange >= 50 ? "darkgreen" : "darkred"}
-            backgroundColor={percentageChange >= 50 ? "#aece78" : "#ec884e"}>
+            tintColor={(percentageChange) >= 50 ? "darkgreen" : "darkred"}
+            backgroundColor={(percentageChange) >= 50 ? "#aece78" : "#ec884e"}>
           </AnimatedCircularProgress>
           <View style={{position: 'absolute', width: 70, alignItems: 'center', left: 31}}>
             <Text style={{ fontSize: 18, fontWeight: 'bold' }} >
@@ -111,7 +122,7 @@ const ScheduleContainer = ({ leftover, index, length, total, setTotal }) => {
 
 }
 
-export default ScheduleContainer;
+export default NewTaskScheduleContainer;
 
 const styles = StyleSheet.create({
   shadow: {
