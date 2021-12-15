@@ -13,7 +13,7 @@ const NewTaskScheduleContainer = ({ leftover, index, length, newTaskTotal, setNe
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
   const [items, setItems] = useState([...Array(leftover.Qty - leftover.Completed)].map((_, i) => ({ 'label': `${i + 1} oz.`, 'value': `${i + 1}`, })));
-  const [zIdx, setzIdx] = useState(Number(index - length));
+  const [zIdx, setzIdx] = useState(Number(length - index));
   const [expDate, setExpiryDate] = useState(0);
   const [leftoverItem, setleftoverItem] = useState(leftover);
 
@@ -85,6 +85,8 @@ const NewTaskScheduleContainer = ({ leftover, index, length, newTaskTotal, setNe
                 labelStyle={{
                   fontWeight: 'bold'
                 }}
+                onOpen={() => setzIdx(100)}
+                onClose={() => setzIdx(length-index)}
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}

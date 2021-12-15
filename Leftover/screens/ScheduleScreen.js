@@ -20,9 +20,11 @@ import {useFocusEffect} from '@react-navigation/native';
 import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
+import { google_api_key } from '../config/config.js';
 
 import ScheduleContainer from './components/scheduleContainer';
 import NewTaskScheduleContainer from './components/newTaskScheduleContainer';
+import axios from 'axios';
 
 const ScheduleScreens = props => {
   const getAvg = () => {
@@ -57,7 +59,9 @@ const ScheduleScreens = props => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const [tasksNextWeek, setNewTaskObj] = useState(props.bData[0].tasksNextWeek);
-  const [donationsInProgress, setDonationTask] = useState(props.bData[0].donationsOut);
+  const [donationsInProgress, setDonationTask] = useState(
+    props.bData[0].donationsOut,
+  );
   const [newTaskTotal, setNewTaskTotal] = useState(getAvgNewTask());
 
   const postNewObj = () => {
@@ -66,25 +70,57 @@ const ScheduleScreens = props => {
     console.log('state', state);
     console.log('zip', zipCode);
     console.log('isDonating', isEnabled);
-    console.log('expiryDate', date);
+    console.log('expiryDate', moment(date).format('YYYY-MM-DD'));
     console.log('moment', moment(date));
 
     const newTask = {
       Item: newTaskName,
       Qty: number,
-      'Expiry Date': date,
+      'Expiry Date': moment(date).format('YYYY-MM-DD'),
       Completed: 0,
       isDonating: isEnabled,
     };
+    if (isEnabled) {
+      axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}+${city}+${state}&key=${google_api_key}`)
+        .then((response) => {
+          const longLat = response.data.results[0].geometry.location;
 
-    const newDonationItem = {
-      ...newTask,
-      Address: address,
-      City: city,
-      State: state,
-      ZipCode: zipCode,
-      maxRadius: radius,
-    };
+          const newDonationItem = {
+            ...newTask,
+            Address: address,
+            City: city,
+            State: state,
+            ZipCode: zipCode,
+            maxRadius: radius,
+            lat: longLat.lat,
+            long: longLat.lng
+          };
+        props.bData[0].donationsOut = [...donationsInProgress, newDonationItem];
+        props.bData[0].tasksNextWeek = [...tasksNextWeek, newTask];
+        console.log('NEW', props.bData[0].donationsOut);
+        setDonationTask(props.bData[0].donationsOut);
+        setNewTaskObj(props.bData[0].tasksNextWeek);
+        toggleModal(false);
+        return;
+
+        })
+        .catch((err) => {
+          const newDonationItem = {
+            ...newTask,
+            Address: address,
+            City: city,
+            State: state,
+            ZipCode: zipCode,
+            maxRadius: radius,
+            lat: 37.7876372,
+            long: -122.3967284
+          };
+        })
+
+        // props.bData[0].donationsOut = [...donationsInProgress, newDonationItem];
+        // setDonationTask(props.bData[0].donationsOut);
+        // console.log('donationsOut', props.bData[0].donationsOut);
+      }
 
     // console.log('newDonationsItem', newDonationItem);
     // console.log('donationsInProgress', donationsInProgress);
@@ -92,12 +128,9 @@ const ScheduleScreens = props => {
     // let newDonations= newDonationItem + (donationsInProgress);
     // console.log('donationsOut', newDonations);
 
-    props.bData[0].donationsOut = [...donationsInProgress, newDonationItem];
-    props.bData[0].tasksNextWeek = [ ...tasksNextWeek, newTask];
-    setDonationTask(props.bData[0].donationsOut);
+    props.bData[0].tasksNextWeek = [...tasksNextWeek, newTask];
     setNewTaskObj(props.bData[0].tasksNextWeek);
 
-    console.log('donationsOut', props.bData[0].donationsOut);
     console.log('tasksNextWeek', props.bData[0].tasksNextWeek);
 
     toggleModal(false);
@@ -208,8 +241,9 @@ const ScheduleScreens = props => {
               color: 'darkgreen',
               fontSize: 16,
               paddingTop: 10,
+              fontWeight: 'bold',
             }}>
-            <Text>Tasks for next week: </Text>
+            <Text>Tasks for next week </Text>
           </Text>
           <Text style={{fontSize: 13, paddingTop: 5, color: 'darkgreen'}}>
             <Text>
