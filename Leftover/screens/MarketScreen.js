@@ -22,8 +22,9 @@ import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
 
-import ScheduleContainer from './components/scheduleContainer';
-import NewTaskScheduleContainer from './components/newTaskScheduleContainer';
+import DonationOut from './components/donationOutContainer';
+import DonationIn from './components/donationInContainer';
+
 import incomingData from '../data/data';
 import axios from 'axios';
 import {google_api_key} from '../config/config.js';
@@ -33,52 +34,24 @@ const MarketScreen = props => {
   const [newDonationIn, setNewDonation] = useState('');
   const [modalDisplay, toggleModal] = useState(false);
   const [number, onChangeNumber] = useState(null);
-  const [address, onChangeAddress] = useState('');
-  const [city, onChangeCity] = useState('');
-  const [state, onChangeState] = useState('');
-  const [zipCode, onChangeZipCode] = useState('');
-  const [radius, onChangeRadius] = useState('');
+  // const [address, onChangeAddress] = useState('');
+  // const [city, onChangeCity] = useState('');
+  // const [state, onChangeState] = useState('');
+  // const [zipCode, onChangeZipCode] = useState('');
+  // const [radius, onChangeRadius] = useState('');
   const [date, setDate] = useState(new Date());
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [donationsOutCoordinants, setCoordinatesOut] = useState([]);
-
-  const generateData = () => {
-    let originLat = props.dData[0].donationsOut[0].lat;
-    let originLong = props.dData[0].donationsOut[0].long;
-
-    let final = [];
-    let promises = [];
-
-    for (var i = 0; i < incomingData.length; i++) {
-      if (incomingData[i].email === props.dData[0].email) continue;
-
-      const donationsOut = incomingData[i].donationsOut;
-      for (var j = 0; j < donationsOut.length; j++) {
-        let item = {
-          item: donationsOut[j].Item,
-          qty: donationsOut[j].Qty,
-          expiryDate: donationsOut[j]['Expiry Date'],
-          lat: donationsOut[j].lat,
-          long: donationsOut[j].long,
-        };
-        final.push(item);
-      }
-    }
-
-    console.log(final)
-
-    return final;
-
-  }
+  const [myDonations, setMyDonations] = useState(props.dData[0].donationsOut);
+  const [myNeeds, setMyNeeds] = useState(props.dData[0].donationsIn);
 
   useFocusEffect(
     React.useCallback(() => {
       console.log('inside focusEffect');
       console.log('allData', props.dData[0]);
       console.log('donationsOut', props.dData[0].donationsOut);
-      console.log('lat', props.dData[0].donationsOut[0].lat);
-      console.log('long', props.dData[0].donationsOut[0].long);
+      console.log('donationsIn', props.dData[0].donationsIn);
 
       let originLat = props.dData[0].donationsOut[0].lat;
       let originLong = props.dData[0].donationsOut[0].long;
@@ -91,7 +64,7 @@ const MarketScreen = props => {
         const donationsOut = incomingData[i].donationsOut;
         const name = incomingData[i].Name;
         for (var j = 0; j < donationsOut.length; j++) {
-          let item = {
+          let responseObj = {
             item: donationsOut[j].Item,
             qty: donationsOut[j].Qty,
             expiryDate: donationsOut[j]['Expiry Date'],
@@ -99,59 +72,57 @@ const MarketScreen = props => {
             long: donationsOut[j].long,
             user: name,
           };
-          final.push(item);
-        //   promises.push(
-        //     axios
-        //       .get(
-        //         `https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${donationsOut[j].lat}%2C${donationsOut[j].long}&origins=${originLat}%2C${originLong}&key=${google_api_key}`,
-        //       )
-        //       .then(response => {
-        //         const distance = response.data.rows[0].elements[0].distance.value;
 
-        //         let item = {
-        //           ...item,
-        //           distance: distance
-        //         };
+          promises.push(
+            axios
+              .get(
+                `https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${donationsOut[j].lat}%2C${donationsOut[j].long}&origins=${originLat}%2C${originLong}&key=${google_api_key}`,
+              )
+              .then(response => {
+                const distance =
+                  response.data.rows[0].elements[0].distance.value;
+                const responseObjDistance = {
+                  ...responseObj,
+                  distance,
+                };
+                //   return axios.get(url2).then( newRespnose => {
 
-        //         console.log(item);
-        //       })
-        //       .catch(err => console.log(err)),
-        //   );
+                //     const xys = {
+                //       ...responseObjDistance,
+                //       new : new,
+                //     }
+                //       return xys
+                //   })
+
+                //  return add(5, 5)
+
+                return responseObjDistance; //wrapped in a promise bc its within then block
+              })
+              .catch(err => console.log(err)),
+          );
         }
       }
 
-      console.log(final)
-      setCoordinatesOut(final);
-
-      console.log(donationsOutCoordinants);
-
-      //   let coordinates = [];
-      //   let promises = [];
-      //   let anotherPromise = [];
-      //   let final = [];
-      //   // https://maps.googleapis.com/maps/api/geocode/json?address=${donationsOut[0].Address}+${donationsOut[0].City}+${donationsOut[0].State}&key=${google_api_key}
-      //   for (var j = 0; j < incomingData.length; j++) {
-      //   if (incomingData[j]['email'] === props.dData[0].email) continue;
-      //   const donationsOut = incomingData[j].donationsOut;
-      //   for(var i = 0; i < donationsOut.length; i++) {
-      //     promises.push(
-      //       axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${donationsOut[i].Address}+${donationsOut[i].City}+${donationsOut[i].State}&key=${google_api_key}`)
-      //       .then((response) => {
-      //         const longLat = response.data.results[0].geometry.location;
-      //         coordinates.push(response.data.results[0].geometry.location);
-      //       })
-      //       .catch((err) => console.log(err))
-      //     )
-      //   }
-
-      // }
-
-      //   Promise.all(promises).then(() => {
-      //     console.log(coordinates);
-      //     setCoordinatesOut(coordinates);
-      //   });
+      Promise.all(promises).then(data => {
+        setCoordinatesOut(data);
+      });
     }, []),
   );
+
+  const postNewObj = () => {
+    console.log('numberinOz', Number(number));
+    console.log('Days Needed', moment(date).format('YYYY-MM-DD'));
+    console.log('moment', moment(date));
+
+    const newItem = {
+      Item: newDonationIn,
+      Qty: number,
+      'Days Needed': moment(date).format('YYYY-MM-DD')
+    };
+    props.dData[0].donationsIn = [newItem, ...props.dData[0].donationsIn];
+    setMyNeeds(props.dData[0].donationsIn);
+    toggleModal(false);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -176,7 +147,7 @@ const MarketScreen = props => {
           style={styles.input1}
           onChangeText={setNewDonation}
           value={newDonationIn}
-          placeholder="Need "
+          placeholder="Need something? Add here"
         />
         <TouchableOpacity
           style={{
@@ -202,56 +173,22 @@ const MarketScreen = props => {
             <Text style={{fontWeight: 'bold'}}>donating </Text>
             <Text>these items </Text>
           </Text>
+          <View>
+            {props.dData[0].donationsOut.map((donation) => <DonationOut leftover={donation} />)}
+          </View>
           <Text
             style={{
               color: 'darkgreen',
               fontSize: 16,
+              paddingTop: 10
             }}>
             <Text>I would like </Text>
             <Text style={{fontWeight: 'bold'}}>these items</Text>
           </Text>
-        </View>
-        <View>
-          <View style={styles.containerMap}>
-            <MapView
-              style={styles.map}
-              region={{
-                latitude: props.dData[0].donationsOut[0].lat,
-                longitude: props.dData[0].donationsOut[0].long,
-                latitudeDelta: 0.05,
-                longitudeDelta: 0.05,
-              }}>
-                {donationsOutCoordinants.map((donation, index) => <Marker
-                  key={index}
-                  coordinate={{
-                    latitude: donation.lat,
-                    longitude: donation.long
-                  }}>
-                    <Callout>
-                      <Text>Doner: {donation.user}</Text>
-                      <Text>Item: {donation.item}</Text>
-                      <Text>Amount: {donation.qty} Oz.</Text>
-                      <Text>Expires: {donation.expiryDate}</Text>
-                      <Button title="Claim"  onPress={() => alert('Claimed!')}/>
-                    </Callout>
-                  </Marker>
-                )}
-                <Marker coordinate={{
-                  latitude: props.dData[0].donationsOut[0].lat,
-                  longitude: props.dData[0].donationsOut[0].long
-                }}
-                pinColor='darkgreen'
-                >
-                  <Callout>
-                    <Text>You</Text>
-                  </Callout>
-
-                </Marker>
-              </MapView>
+          <View>
+            {props.dData[0].donationsIn.map((need) => <DonationIn leftover={need} />)}
           </View>
         </View>
-        <View style={{height: 50}} />
-      </ScrollView>
       <Modal visible={modalDisplay} animationType="slide">
         <View
           style={{
@@ -333,7 +270,7 @@ const MarketScreen = props => {
                 <Text style={{fontSize: 16, paddingTop: 10}}>Oz.</Text>
               </View>
             </View>
-            <View
+           {/*  <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -435,7 +372,7 @@ const MarketScreen = props => {
                   />
                 </View>
               </>
-            )}
+            )} */}
             <View>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Text
@@ -445,7 +382,7 @@ const MarketScreen = props => {
                     marginTop: 10,
                     justifyContent: 'center',
                   }}>
-                  Expiry Date:
+                  When do you need it by?
                 </Text>
               </View>
               <View
@@ -471,6 +408,48 @@ const MarketScreen = props => {
           </View>
         </View>
       </Modal>
+      </ScrollView>
+          <View style={styles.containerMap}>
+            <MapView
+              style={styles.map}
+              region={{
+                latitude: props.dData[0].donationsOut[0].lat,
+                longitude: props.dData[0].donationsOut[0].long,
+                latitudeDelta: 0.02,
+                longitudeDelta: 0.02,
+              }}>
+              {donationsOutCoordinants.map((donation, index) => (
+                <Marker
+                  key={index}
+                  coordinate={{
+                    latitude: donation.lat,
+                    longitude: donation.long,
+                  }}>
+                  <Callout>
+                    <Text>Doner: {donation.user}</Text>
+                    <Text>Item: {donation.item}</Text>
+                    <Text>Amount: {donation.qty} Oz.</Text>
+                    <Text>Expires: {donation.expiryDate}</Text>
+                    <Text style={{fontWeight: 'bold'}}>
+                      {Math.round(donation.distance * 0.000621371 * 100) / 100}{' '}
+                      mi. away
+                    </Text>
+                    <Button title="Claim" onPress={() => alert('Claimed!')} />
+                  </Callout>
+                </Marker>
+              ))}
+              <Marker
+                coordinate={{
+                  latitude: props.dData[0].lat,
+                  longitude: props.dData[0].long,
+                }}
+                pinColor="darkgreen">
+                <Callout>
+                  <Text>You</Text>
+                </Callout>
+              </Marker>
+            </MapView>
+          </View>
     </SafeAreaView>
   );
 };
@@ -486,7 +465,7 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: '#fff',
     marginHorizontal: 30,
-    marginBottom: 85,
+    marginBottom: 10,
   },
   input1: {
     width: '70%',
@@ -528,13 +507,15 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   containerMap: {
-    ...StyleSheet.absoluteFillObject,
-    height: 400,
-    width: 400,
-    justifyContent: 'flex-end',
+    marginLeft: 30,
+    marginRight: 30,
+    height: 270,
+    marginBottom: 90,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+    borderRadius: 15,
   },
 });
