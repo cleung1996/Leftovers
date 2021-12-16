@@ -46,11 +46,11 @@ const RecipeScreen = (props) => {
     let subBucket = []
 
     for (let i = 0; i < receipeResults.length; i++) {
-      subBucket.push(<RecipeContainer key={i} data={receipeResults[i]} />)
+      subBucket.push(<RecipeContainer key={i.toString() + (subBucket.length).toString() + receipeResults[i].title} idx={i.toString() + (subBucket.length).toString()} data={receipeResults[i]} />)
 
       if (subBucket.length === 2 || (i + 1 === receipeResults.length)) {
         bucket.push((
-          <View key={i} style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', alignItems: 'center' }}>
+          <View key={i.toString() + (subBucket.length).toString()} style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', alignItems: 'center' }}>
             {subBucket}
           </View>
         ));

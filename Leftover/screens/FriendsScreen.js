@@ -54,7 +54,7 @@ const FriendsScreen = (props) => {
         'weeklyScore': newValue,
         'isUser': false,
         'status': currentValue.status,
-        'id': currentValue.id
+        'id': currentValue.id,
       }
       response.push(responseObj);
     }
@@ -65,7 +65,7 @@ const FriendsScreen = (props) => {
       'weeklyScore': value,
       'isUser': true,
       'status': currentStatus,
-      'id': data.id
+      'id': data.id,
     })
     response.sort((a,b) => b.weeklyScore - a.weeklyScore);
     response.forEach((a, index) => a.rank = index + 1);

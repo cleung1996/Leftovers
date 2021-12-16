@@ -20,7 +20,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
-import { google_api_key } from '../config/config.js';
+import {google_api_key} from '../config/config.js';
 
 import ScheduleContainer from './components/scheduleContainer';
 import NewTaskScheduleContainer from './components/newTaskScheduleContainer';
@@ -81,8 +81,11 @@ const ScheduleScreens = props => {
       isDonating: isEnabled,
     };
     if (isEnabled) {
-      axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}+${city}+${state}&key=${google_api_key}`)
-        .then((response) => {
+      axios
+        .get(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${address}+${city}+${state}&key=${google_api_key}`,
+        )
+        .then(response => {
           const longLat = response.data.results[0].geometry.location;
 
           const newDonationItem = {
@@ -93,18 +96,20 @@ const ScheduleScreens = props => {
             ZipCode: zipCode,
             maxRadius: radius,
             lat: longLat.lat,
-            long: longLat.lng
+            long: longLat.lng,
           };
-        props.bData[0].donationsOut = [...donationsInProgress, newDonationItem];
-        props.bData[0].tasksNextWeek = [...tasksNextWeek, newTask];
-        console.log('NEW', props.bData[0].donationsOut);
-        setDonationTask(props.bData[0].donationsOut);
-        setNewTaskObj(props.bData[0].tasksNextWeek);
-        toggleModal(false);
-        return;
-
+          props.bData[0].donationsOut = [
+            ...donationsInProgress,
+            newDonationItem,
+          ];
+          props.bData[0].tasksNextWeek = [...tasksNextWeek, newTask];
+          console.log('NEW', props.bData[0].donationsOut);
+          setDonationTask(props.bData[0].donationsOut);
+          setNewTaskObj(props.bData[0].tasksNextWeek);
+          toggleModal(false);
+          return;
         })
-        .catch((err) => {
+        .catch(err => {
           const newDonationItem = {
             ...newTask,
             Address: address,
@@ -113,14 +118,14 @@ const ScheduleScreens = props => {
             ZipCode: zipCode,
             maxRadius: radius,
             lat: 37.7876372,
-            long: -122.3967284
+            long: -122.3967284,
           };
-        })
+        });
 
-        // props.bData[0].donationsOut = [...donationsInProgress, newDonationItem];
-        // setDonationTask(props.bData[0].donationsOut);
-        // console.log('donationsOut', props.bData[0].donationsOut);
-      }
+      // props.bData[0].donationsOut = [...donationsInProgress, newDonationItem];
+      // setDonationTask(props.bData[0].donationsOut);
+      // console.log('donationsOut', props.bData[0].donationsOut);
+    }
 
     // console.log('newDonationsItem', newDonationItem);
     // console.log('donationsInProgress', donationsInProgress);
@@ -235,41 +240,45 @@ const ScheduleScreens = props => {
             </View>
           </View>
         </View>
-        <View>
-          <Text
-            style={{
-              color: 'darkgreen',
-              fontSize: 16,
-              paddingTop: 10,
-              fontWeight: 'bold',
-            }}>
-            <Text>Tasks for next week </Text>
-          </Text>
-          <Text style={{fontSize: 13, paddingTop: 5, color: 'darkgreen'}}>
-            <Text>
-              You can start contributing now, but points will only be added and
-              affect{' '}
-            </Text>
-            <Text style={{fontWeight: 'bold'}}>next </Text>
-            <Text>week's goal</Text>
-          </Text>
-        </View>
-        <View>
-          {props.bData[0].tasksNextWeek.map((leftover, index) => {
-            console.log('length', props.bData[0].tasksNextWeek.length);
-            console.log('index', index);
-            return (
-              <NewTaskScheduleContainer
-                leftover={leftover}
-                key={index}
-                index={index}
-                length={props.bData[0].tasksNextWeek.length}
-                newTaskTotal={newTaskTotal}
-                setNewTaskTotal={setNewTaskTotal}
-              />
-            );
-          })}
-        </View>
+        {props.bData[0].tasksNextWeek.length > 0 &&
+          <>
+            <View>
+              <Text
+                style={{
+                  color: 'darkgreen',
+                  fontSize: 16,
+                  paddingTop: 10,
+                  fontWeight: 'bold',
+                }}>
+                <Text>Tasks for next week </Text>
+              </Text>
+              <Text style={{fontSize: 13, paddingTop: 5, color: 'darkgreen'}}>
+                <Text>
+                  You can start contributing now, but points will only be added
+                  and affect{' '}
+                </Text>
+                <Text style={{fontWeight: 'bold'}}>next </Text>
+                <Text>week's goal</Text>
+              </Text>
+            </View>
+            <View>
+              {props.bData[0].tasksNextWeek.map((leftover, index) => {
+                console.log('length', props.bData[0].tasksNextWeek.length);
+                console.log('index', index);
+                return (
+                  <NewTaskScheduleContainer
+                    leftover={leftover}
+                    key={index}
+                    index={index}
+                    length={props.bData[0].tasksNextWeek.length}
+                    newTaskTotal={newTaskTotal}
+                    setNewTaskTotal={setNewTaskTotal}
+                  />
+                );
+              })}
+            </View>
+          </>
+        }
         <View style={{height: 50}} />
       </ScrollView>
       <Modal visible={modalDisplay} animationType="slide">

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Animated, Modal, StyleSheet, Button, TextInput, SafeAreaView, CroppingView, View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 
-const RecipeContainer = ({ data }) => {
+const RecipeContainer = ({ data, idx }) => {
 
   const [modalDisplay, toggleModal] = useState(false);
   const createHashTag = (str) => {
@@ -17,7 +17,7 @@ const RecipeContainer = ({ data }) => {
   }
 
   return (
-    <>
+    <View key={idx}>
       <Modal visible={modalDisplay} animationType="slide">
         <SafeAreaView style={{ flex: 1, flexDirection: "column", justifyContent: "space-between" }}>
           <ScrollView>
@@ -31,9 +31,9 @@ const RecipeContainer = ({ data }) => {
               </View>
               <View>
                 <Text style={{ paddingTop: 30, fontSize: 20, paddingLeft: 20, fontWeight: 'bold' }}>Ingredients: </Text>
-                {data.ingredientLines.map((anIngredient) => <Text style={{ paddingTop: 10, paddingLeft: 20, fontSize: 14, textTransform: 'capitalize' }}>{anIngredient}</Text>)}
+                {data.ingredientLines.map((anIngredient, index) => <Text style={{ paddingTop: 10, paddingLeft: 20, fontSize: 14, textTransform: 'capitalize' }} key={index}>{anIngredient}</Text>)}
                 <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-                  {data.dietLabels.length > 0 && (data.dietLabels.map((anIngredient) => <Text style={{ paddingTop: 10, paddingLeft: 20, fontSize: 14, fontWeight: 'bold', paddingTop: 20 }}>{createHashTag(anIngredient)}</Text>))}
+                  {data.dietLabels.length > 0 && (data.dietLabels.map((anIngredient, index) => <Text style={{ paddingTop: 10, paddingLeft: 20, fontSize: 14, fontWeight: 'bold', paddingTop: 20 }} key={index}>{createHashTag(anIngredient)}</Text>))}
                 </View>
               </View>
             </View>
@@ -76,7 +76,7 @@ const RecipeContainer = ({ data }) => {
         <Image source={{ uri: data.image }}
           style={{ zIndex: 0, width: 155, height: 155 }} />
       </TouchableOpacity>
-    </>
+    </View>
   );
 };
 

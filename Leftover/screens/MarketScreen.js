@@ -53,8 +53,8 @@ const MarketScreen = props => {
       console.log('donationsOut', props.dData[0].donationsOut);
       console.log('donationsIn', props.dData[0].donationsIn);
 
-      let originLat = props.dData[0].donationsOut[0].lat;
-      let originLong = props.dData[0].donationsOut[0].long;
+      let originLat = props.dData[0].lat;
+      let originLong = props.dData[0].long;
 
       let final = [];
       let promises = [];
@@ -76,7 +76,7 @@ const MarketScreen = props => {
           promises.push(
             axios
               .get(
-                `https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${donationsOut[j].lat}%2C${donationsOut[j].long}&origins=${originLat}%2C${originLong}&key=${google_api_key}`,
+                `https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${donationsOut[j].lat}%2C${donationsOut[j].long}&origins=${originLat}%2C${originLong}&key=${google_api_key}&mode=walking`,
               )
               .then(response => {
                 const distance =
@@ -117,7 +117,7 @@ const MarketScreen = props => {
     const newItem = {
       Item: newDonationIn,
       Qty: number,
-      'Days Needed': moment(date).format('YYYY-MM-DD')
+      'Days Needed': moment(date).format('YYYY-MM-DD'),
     };
     props.dData[0].donationsIn = [newItem, ...props.dData[0].donationsIn];
     setMyNeeds(props.dData[0].donationsIn);
@@ -174,103 +174,111 @@ const MarketScreen = props => {
             <Text>these items </Text>
           </Text>
           <View>
-            {props.dData[0].donationsOut.map((donation) => <DonationOut leftover={donation} />)}
+            {props.dData[0].donationsOut.map((donation, index) => (
+              <DonationOut leftover={donation} key={index} />
+            ))}
           </View>
-          <Text
-            style={{
-              color: 'darkgreen',
-              fontSize: 16,
-              paddingTop: 10
-            }}>
-            <Text>I would like </Text>
-            <Text style={{fontWeight: 'bold'}}>these items</Text>
-          </Text>
-          <View>
-            {props.dData[0].donationsIn.map((need) => <DonationIn leftover={need} />)}
-          </View>
+          {props.dData[0].donationsIn.length > 0 && (
+            <>
+              <Text
+                style={{
+                  color: 'darkgreen',
+                  fontSize: 16,
+                  paddingTop: 10,
+                }}>
+                <Text>I would like </Text>
+                <Text style={{fontWeight: 'bold'}}>these items</Text>
+              </Text>
+              <View>
+                {props.dData[0].donationsIn.map((need, index) => (
+                  <DonationIn leftover={need} key={index} />
+                ))}
+              </View>
+            </>
+          )}
         </View>
-      <Modal visible={modalDisplay} animationType="slide">
-        <View
-          style={{
-            marginHorizontal: 50,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            marginTop: 30,
-          }}>
-          <View style={{marginTop: 30}}>
-            <Text
-              style={{
-                color: 'darkgreen',
-                fontSize: 24,
-                marginTop: 30,
-                marginLeft: 30,
-                fontWeight: 'bold',
-                textAlign: 'center',
-              }}>
-              <Text>New Leftover Task</Text>
-            </Text>
-            <Text style={{color: 'darkgreen', fontSize: 16, paddingTop: 30}}>
-              Tell us more about it:
-            </Text>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text
+        <Modal visible={modalDisplay} animationType="slide">
+          <View
+            style={{
+              marginHorizontal: 50,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              marginTop: 30,
+            }}>
+            <View style={{marginTop: 30}}>
+              <Text
+                style={{
+                  color: 'darkgreen',
+                  fontSize: 24,
+                  marginTop: 30,
+                  marginLeft: 30,
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                }}>
+                <Text>Donation Request</Text>
+              </Text>
+              <Text style={{color: 'darkgreen', fontSize: 16, paddingTop: 30}}>
+                Tell us more about it:
+              </Text>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 16,
+                      marginTop: 10,
+                      justifyContent: 'center',
+                    }}>
+                    Item Name:
+                  </Text>
+                </View>
+                <View
                   style={{
-                    fontWeight: 'bold',
-                    fontSize: 16,
-                    marginTop: 10,
-                    justifyContent: 'center',
+                    width: '50%',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    paddingBottom: 10,
                   }}>
-                  Item Name:
-                </Text>
+                  <Text
+                    style={{fontSize: 16, paddingTop: 10, fontWeight: 'bold'}}>
+                    {newDonationIn}
+                  </Text>
+                </View>
               </View>
               <View
-                style={{
-                  width: '50%',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  paddingBottom: 10,
-                }}>
-                <Text
-                  style={{fontSize: 16, paddingTop: 10, fontWeight: 'bold'}}>
-                  {newDonationIn}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 16,
+                      marginTop: 10,
+                      justifyContent: 'center',
+                    }}>
+                    Amount:
+                  </Text>
+                </View>
+                <View
                   style={{
-                    fontWeight: 'bold',
-                    fontSize: 16,
-                    marginTop: 10,
-                    justifyContent: 'center',
+                    width: '50%',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    paddingBottom: 10,
                   }}>
-                  Amount:
-                </Text>
+                  <TextInput
+                    style={styles.input2}
+                    onChangeText={onChangeNumber}
+                    value={number}
+                    placeholder="i.e 4"
+                    keyboardType="phone-pad"
+                  />
+                  <Text style={{fontSize: 16, paddingTop: 10}}>Oz.</Text>
+                </View>
               </View>
-              <View
-                style={{
-                  width: '50%',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  paddingBottom: 10,
-                }}>
-                <TextInput
-                  style={styles.input2}
-                  onChangeText={onChangeNumber}
-                  value={number}
-                  placeholder="i.e 4"
-                  keyboardType="phone-pad"
-                />
-                <Text style={{fontSize: 16, paddingTop: 10}}>Oz.</Text>
-              </View>
-            </View>
-           {/*  <View
+              {/*  <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -373,83 +381,83 @@ const MarketScreen = props => {
                 </View>
               </>
             )} */}
-            <View>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text
+              <View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 16,
+                      marginTop: 10,
+                      justifyContent: 'center',
+                    }}>
+                    When do you need it by?
+                  </Text>
+                </View>
+                <View
                   style={{
-                    fontWeight: 'bold',
-                    fontSize: 16,
-                    marginTop: 10,
+                    width: '100%',
+                    flexDirection: 'row',
                     justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingBottom: 10,
                   }}>
-                  When do you need it by?
-                </Text>
-              </View>
-              <View
-                style={{
-                  width: '100%',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingBottom: 10,
-                }}>
-                <DatePicker date={date} onDateChange={setDate} mode="date" />
+                  <DatePicker date={date} onDateChange={setDate} mode="date" />
+                </View>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginBottom: 40,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}>
-            <Button title="Add Task" onPress={() => postNewObj()} />
-            <Button title="Cancel" onPress={() => toggleModal(false)} />
-          </View>
-        </View>
-      </Modal>
-      </ScrollView>
-          <View style={styles.containerMap}>
-            <MapView
-              style={styles.map}
-              region={{
-                latitude: props.dData[0].donationsOut[0].lat,
-                longitude: props.dData[0].donationsOut[0].long,
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.02,
+            <View
+              style={{
+                marginBottom: 40,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
               }}>
-              {donationsOutCoordinants.map((donation, index) => (
-                <Marker
-                  key={index}
-                  coordinate={{
-                    latitude: donation.lat,
-                    longitude: donation.long,
-                  }}>
-                  <Callout>
-                    <Text>Doner: {donation.user}</Text>
-                    <Text>Item: {donation.item}</Text>
-                    <Text>Amount: {donation.qty} Oz.</Text>
-                    <Text>Expires: {donation.expiryDate}</Text>
-                    <Text style={{fontWeight: 'bold'}}>
-                      {Math.round(donation.distance * 0.000621371 * 100) / 100}{' '}
-                      mi. away
-                    </Text>
-                    <Button title="Claim" onPress={() => alert('Claimed!')} />
-                  </Callout>
-                </Marker>
-              ))}
-              <Marker
-                coordinate={{
-                  latitude: props.dData[0].lat,
-                  longitude: props.dData[0].long,
-                }}
-                pinColor="darkgreen">
-                <Callout>
-                  <Text>You</Text>
-                </Callout>
-              </Marker>
-            </MapView>
+              <Button title="Add Task" onPress={() => postNewObj()} />
+              <Button title="Cancel" onPress={() => toggleModal(false)} />
+            </View>
           </View>
+        </Modal>
+      </ScrollView>
+      <View style={styles.containerMap}>
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: props.dData[0].lat,
+            longitude: props.dData[0].long,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
+          }}>
+          {donationsOutCoordinants.map((donation, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: donation.lat,
+                longitude: donation.long,
+              }}>
+              <Callout>
+                <Text>Doner: {donation.user}</Text>
+                <Text>Item: {donation.item}</Text>
+                <Text>Amount: {donation.qty} Oz.</Text>
+                <Text>Expires: {donation.expiryDate}</Text>
+                <Text style={{fontWeight: 'bold'}}>
+                  {Math.round(donation.distance * 0.000621371 * 100) / 100} mi.
+                  away
+                </Text>
+                <Button title="Claim" onPress={() => alert('Claimed!')} />
+              </Callout>
+            </Marker>
+          ))}
+          <Marker
+            coordinate={{
+              latitude: props.dData[0].lat,
+              longitude: props.dData[0].long,
+            }}
+            pinColor="darkgreen">
+            <Callout>
+              <Text>You</Text>
+            </Callout>
+          </Marker>
+        </MapView>
+      </View>
     </SafeAreaView>
   );
 };

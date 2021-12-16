@@ -10,14 +10,14 @@ var users = [
     'lat': 37.7874,
     'long': -122.39638,
     'points': 3420,
-    'photo': '/Mii-boy.png',
+    'photo': '../../images/Mii-boy.png',
     'status': 'Gold',
     'currentData': [{'Item': 'Spinach', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 11, 'isDonating': false}, {'Item': 'Tomatos', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 2, 'isDonating': false}, {'Item': 'Beef', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 6, 'isDonating': false}],
     'tasksNextWeek': [],
-    'donationsOut': [{'Item': 'Asparagus', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 0, 'isDonating': true, 'Address': '44 Tehama St.', 'City': 'San Francisco', 'State': 'CA', 'ZipCode': 94105, 'maxRadius': 50, "lat": 37.7874, "long": -122.39638 }],
+    'donationsOut': [],
     'donationsIn': [],
     'password': 'Password',
-    'friends': [2,3,4]
+    'friends': [2,3,4,5]
   },
   {
     'id': 2,
@@ -30,7 +30,7 @@ var users = [
     'lat': 37.790950,
     'long': -122.398630,
     'points': 2810,
-    'photo': '/Mii-girl.png',
+    'photo': '../../images/Mii-girl.png',
     'status': 'Silver',
     'currentData': [{'Item': 'Beets', 'Qty': 15, 'Expiry Date': '2021-12-20', 'Completed': 10, 'isDonating': false }, {'Item': 'Oranges', 'Qty': 5, 'Expiry Date': '2021-12-20', 'Completed': 0, 'isDonating': true}],
     'tasksNextWeek': [],
@@ -51,7 +51,7 @@ var users = [
     'long': -122.3997825,
     'points': 1029,
     'status': 'Bronze',
-    'photo': '/Mii-man.png',
+    'photo': '../../images/Mii-man.png',
     'currentData': [{'Item': 'Beets', 'Qty': 15, 'Expiry Date': '2021-12-20', 'Completed': 5, 'isDonating': false }, {'Item': 'Oranges', 'Qty': 5, 'Expiry Date': '2021-12-20', 'Completed': 0, 'isDonating': true}],
     'tasksNextWeek': [],
     'donationsOut': [{'Item': 'Carrots', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 0, 'isDonating': true, 'Address': '399 4th St', 'City': 'San Francisco', 'State': 'CA', 'ZipCode': 94107, 'maxRadius': 50, 'lat': 37.7812623, 'long': -122.3997825 }],
@@ -71,7 +71,7 @@ var users = [
     'long': -122.386685,
     'points': 4862,
     'status': 'Platinum',
-    'photo': '/Mii-Oldman.png',
+    'photo': '../../images/Mii-Oldman.png',
     'currentData': [{'Item': 'Beets', 'Qty': 15, 'Expiry Date': '2021-12-20', 'Completed': 4, 'isDonating': false }, {'Item': 'Oranges', 'Qty': 5, 'Expiry Date': '2021-12-20', 'Completed': 5, 'isDonating': true}],
     'tasksNextWeek': [],
     'donationsOut': [{'Item': 'Beets', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 0, 'isDonating': true, 'Address': '1 Warriors Way', 'City': 'San Francisco', 'State': 'CA', 'ZipCode': 94158, 'maxRadius': 50, 'lat': 37.7678637, 'long': -122.3866853 }],
@@ -81,7 +81,7 @@ var users = [
   },
   {
     'id': 5,
-    'Name': 'Abc',
+    'Name': 'Becky',
     'email': 'Abc',
     'address': '627 Jackson St.',
     'city': 'San Francisco',
@@ -90,8 +90,8 @@ var users = [
     'lat': 37.79605,
     'long': -122.405643,
     'points': 3950,
-    'photo': '/Mii-boy.png',
-    'currentData': [{'Item': 'Spinach', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 13, 'isDonating': false}, {'Item': 'Tomatos', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 2, 'isDonating': false}, {'Item': 'Beef', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 6, 'isDonating': false}],
+    'photo': '../../images/Mii-boy.png',
+    'currentData': [{'Item': 'Spinach', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 2, 'isDonating': false}, {'Item': 'Tomatos', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 2, 'isDonating': false}, {'Item': 'Beef', 'Qty': 10, 'Expiry Date': '2021-12-20', 'Completed': 6, 'isDonating': false}],
     'status': 'Gold',
     'tasksNextWeek': [{'Item': 'Asparagus', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 0, 'isDonating': true, 'Address': '627 Jackson St.', 'City': 'San Francisco', 'State': 'CA', 'ZipCode': 94133, 'maxRadius': 50, 'lat': 37.79605, 'long': -122.405643 }],
     'donationsIn': [],
@@ -102,3 +102,6 @@ var users = [
 ]
 
 module.exports = users;
+
+// {'Item': 'Broccoli', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 0, 'isDonating': true, 'Address': '455 Market St', 'City': 'San Francisco', 'State': 'CA', 'ZipCode': 94105, 'maxRadius': 50, 'lat': 37.790950, 'long': -122.398630 }
+// {'Item': 'Asparagus', 'Qty': 20, 'Expiry Date': '2021-12-18', 'Completed': 0, 'isDonating': true, 'Address': '44 Tehama St.', 'City': 'San Francisco', 'State': 'CA', 'ZipCode': 94105, 'maxRadius': 50, "lat": 37.7874, "long": -122.39638 }

@@ -165,6 +165,9 @@ const Main = ({ navigation }) => {
             return !!data.length ? navigation.navigate('Home', {screen: 'HomeScreen', params: {data}}) : alert('Invalid email and/or password')}
             } />
         </View>
+        <View style={{position: 'absolute', bottom: 700, right: -125}}>
+          <Button color='navy' title="Sign Up" />
+        </View>
       </FadeInLogin>
     </SafeAreaView>
   )
