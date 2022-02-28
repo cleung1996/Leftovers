@@ -34,11 +34,6 @@ const MarketScreen = props => {
   const [newDonationIn, setNewDonation] = useState('');
   const [modalDisplay, toggleModal] = useState(false);
   const [number, onChangeNumber] = useState(null);
-  // const [address, onChangeAddress] = useState('');
-  // const [city, onChangeCity] = useState('');
-  // const [state, onChangeState] = useState('');
-  // const [zipCode, onChangeZipCode] = useState('');
-  // const [radius, onChangeRadius] = useState('');
   const [date, setDate] = useState(new Date());
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -48,11 +43,6 @@ const MarketScreen = props => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log('inside focusEffect');
-      console.log('allData', props.dData[0]);
-      console.log('donationsOut', props.dData[0].donationsOut);
-      console.log('donationsIn', props.dData[0].donationsIn);
-
       let originLat = props.dData[0].lat;
       let originLong = props.dData[0].long;
 
@@ -85,16 +75,6 @@ const MarketScreen = props => {
                   ...responseObj,
                   distance,
                 };
-                //   return axios.get(url2).then( newRespnose => {
-
-                //     const xys = {
-                //       ...responseObjDistance,
-                //       new : new,
-                //     }
-                //       return xys
-                //   })
-
-                //  return add(5, 5)
 
                 return responseObjDistance; //wrapped in a promise bc its within then block
               })
